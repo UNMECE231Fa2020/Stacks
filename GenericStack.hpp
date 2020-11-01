@@ -130,3 +130,88 @@ class Stack {
 			}
 			return false;
 		}
+
+		Stack<S> &operator=(const Stack<S> &s) {
+			if (s.empty()) {
+				if (size() == 1) {
+					delete _data;
+				}
+				else {
+					delete [] _data;
+				}
+				_size = 0;
+				_data = nullptr;
+				return *this;
+			}
+
+			if (s.size() == 1) {
+				S s_value = *s._data;
+				if (size() < 2) {
+					delete _data;
+				}
+				else {
+					delete [] _data;
+				}
+				_data = new S(s_value);
+				_size = 1;
+			}
+			else {
+				size_t s_size = s.size();
+				S *s_data = new S[s_size];
+				size_t i;
+				for (i=0; i < s_size; i++) {
+					*(s_data + i) = *(s._data + i);
+				}
+
+				if (size() < 2) {
+					delete _data;
+				}
+				else {
+					delete [] _data;
+				}
+
+				_data = new S[s_size];
+
+				for (i=0; i < s_size; i++) {
+					*(_data + i) = *(s_data + i);
+				}
+
+				_size = s_size;
+				delete [] s_data;
+			}
+			return *this;
+		}
+		
+		template <typename S>
+		friend std::ostream &operator<<(std::ostream &out, const Stack<S> &s);
+
+		template <typename S>
+		friend bool operator==(const Stack<S> &a, const Stack<S> &b) {
+			if (a.size() != b.size()) {
+				return false;
+			}
+
+			for (size_t i = 0; i < a.size(); i++) {
+				if ( (*(a._data + i)) != (*(b._data + i)) ) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		template <typename S>
+		friend bool operator!=(const Stack<S> &a, const Stack<S> &b);
+};
+
+template <typename S>
+std::ostream &operator<<(std::ostream &out, const Stack<S> &s) {
+	for(size_t i = 0; i < s.size(); i++) {
+		out << *(s._data + i) << ' ';
+	}
+	return out;
+}
+
+template <typename S>
+bool operator!=(const Stack<S> &a, const Stack<S> &b) {
+	return !(a == b);
+}
