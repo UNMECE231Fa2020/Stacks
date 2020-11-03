@@ -182,11 +182,11 @@ class Stack {
 			return *this;
 		}
 		
-		template <typename S>
-		friend std::ostream &operator<<(std::ostream &out, const Stack<S> &s);
+		template <typename T>
+		friend std::ostream &operator<<(std::ostream &out, const Stack<T> &s);
 
-		template <typename S>
-		friend bool operator==(const Stack<S> &a, const Stack<S> &b) {
+		template <typename T>
+		friend bool operator==(const Stack<T> &a, const Stack<T> &b) {
 			if (a.size() != b.size()) {
 				return false;
 			}
@@ -199,19 +199,19 @@ class Stack {
 			return true;
 		}
 
-		template <typename S>
-		friend bool operator!=(const Stack<S> &a, const Stack<S> &b);
+		template <typename T>
+		friend bool operator!=(const Stack<T> &a, const Stack<T> &b);
 };
 
-template <typename S>
-std::ostream &operator<<(std::ostream &out, const Stack<S> &s) {
+template <typename T>
+std::ostream &operator<<(std::ostream &out, const Stack<T> &s) {
 	for(size_t i = 0; i < s.size(); i++) {
 		out << *(s._data + i) << ' ';
 	}
 	return out;
 }
 
-template <typename S>
-bool operator!=(const Stack<S> &a, const Stack<S> &b) {
+template <typename T>
+bool operator!=(const Stack<T> &a, const Stack<T> &b) {
 	return !(a == b);
 }
